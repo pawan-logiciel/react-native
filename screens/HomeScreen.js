@@ -13,6 +13,7 @@ class HomeScreen extends Component {
             <View style={styles.container}>
                 <Button title="go back to login screen" onPress={() => this.props.navigation.goBack()} />
                 <Button title="go back to login screen" onPress={() => this.props.navigation.popToTop()} />
+                <Button title="go to About screen" onPress={() => this.props.navigation.navigate('About')}/>            
             </View>
         );
     }

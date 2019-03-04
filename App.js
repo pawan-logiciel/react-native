@@ -1,18 +1,10 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- * @lint-ignore-every XPLATJSCOPYRIGHT1
- */
-
 import React, {Component} from 'react'
 import {Platform, StyleSheet, Text, View} from 'react-native'
 import {createStackNavigator, createAppContainer} from 'react-navigation'
 
 import  LoginScreen from './screens/LoginScreen'
 import  HomeScreen from './screens/HomeScreen'
+import  AboutScreen from './screens/AboutScreen'
 
 type Props = {};
 
@@ -26,7 +18,8 @@ const AppStackNavigator = createStackNavigator(
    {
       Login: LoginScreen,
       Home: HomeScreen,
-   },
+      About: AboutScreen
+    },
    {
     initialRouteName: 'Login',
       defaultNavigationOptions: {
@@ -43,22 +36,3 @@ const AppStackNavigator = createStackNavigator(
 )
 
 const AppContainer = createAppContainer(AppStackNavigator);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
