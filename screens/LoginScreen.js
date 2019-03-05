@@ -16,6 +16,7 @@ class LoginScreen extends Component {
     static navigationOptions = {
         header: null
     }
+  
 
     render() {
         return (
@@ -66,6 +67,7 @@ class LoginScreen extends Component {
     }
 }
 export default LoginScreen;
+getData();  
 
 const styles = StyleSheet.create({
     container: {
@@ -107,3 +109,21 @@ const styles = StyleSheet.create({
         paddingTop: 4
       }
 });
+
+function getData() {
+  return fetch('https://www.googleapis.com/youtube/v3/activities?part=snippet', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'AIzaSyAB_SfSaE9eIMdJwNB4X001jonRDtVmB_k',
+    }
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    console.log(responseJson);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+};
