@@ -111,12 +111,12 @@ const styles = StyleSheet.create({
 });
 
 function getData() {
-  return fetch('https://www.googleapis.com/youtube/v3/activities?part=snippet', {
+  return fetch(url, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: 'AIzaSyAB_SfSaE9eIMdJwNB4X001jonRDtVmB_k',
+      Authorization: 'your api key',
     }
   })
   .then((response) => response.json())
