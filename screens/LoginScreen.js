@@ -3,23 +3,23 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
+	Image,
+	Button,
     TouchableOpacity,
     FlatList
 } from "react-native";
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import Icon from 'react-native-vector-icons/FontAwesome5';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 
 class LoginScreen extends Component {
-
     static navigationOptions = {
         header: null
     }
-  
 
+	
     render() {
-        return (
+		return (
             // <View style={styles.container}>
             //     <Button title="Go To Home"
             //         onPress={() => this.props.navigation.navigate('Home')} />
@@ -37,12 +37,17 @@ class LoginScreen extends Component {
               </View>
             </View>
             <View style={styles.body}>
+            {/* <GoogleSigninButton
+                style={{ width: 192, height: 48 }}
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={this.signIn} /> */}
               {/* <FlatList
               data={data.items}
               renderItem={(video)=><VideoItem video={video.item} />}
               keyExtractor={(item)=>item.id}
               ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#E5E5E5'}}/>}
-               /> */}
+			/> */}
             </View>
             <View style={styles.tabBar}>
               <TouchableOpacity style={styles.tabItem}>
@@ -67,13 +72,12 @@ class LoginScreen extends Component {
     }
 }
 export default LoginScreen;
-getData();  
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-      },
-      navBar: {
+	container: {
+		flex: 1
+	},
+	navBar: {
         height: 55,
         backgroundColor: 'white',
         elevation: 3,
@@ -81,49 +85,62 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
-      },
-      rightNav: {
-        flexDirection: 'row'
-      },
-      navItem: {
-        marginLeft: 25
-      },
-      body: {
-        flex: 1
-      },
-      tabBar: {
-        backgroundColor: 'white',
+	},
+	rightNav: {
+		flexDirection: 'row'
+	},
+	navItem: {
+		marginLeft: 25
+	},
+	body: {
+		flex: 1
+	},
+	tabBar: {
+		backgroundColor: 'white',
         height: 60,
         borderTopWidth: 0.5,
         borderColor: '#E5E5E5',
         flexDirection: 'row',
         justifyContent: 'space-around'
-      },
-      tabItem: {
-        alignItems: 'center',
+	},
+	tabItem: {
+		alignItems: 'center',
         justifyContent: 'center'
-      },
-      tabTitle: {
-        fontSize: 11,
+	},
+	tabTitle: {
+		fontSize: 11,
         color: '#3c3c3c',
         paddingTop: 4
-      }
+	}
 });
 
-function getData() {
-  return fetch(url, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: 'your api key',
-    }
-  })
-  .then((response) => response.json())
-  .then((responseJson) => {
-    console.log(responseJson);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-};
+
+GoogleSignin.configure({
+	scopes: ['email', 'profile'], // what API you want to access on behalf of the user, default is email and profile
+});
+
+sign();
+
+async function sign () {
+	console.log('hit')
+	try {
+		console.log('try')	
+    // await GoogleSignin.hasPlayServices();
+
+    console.log(await GoogleSignin.getTokens())
+    // console.log(user)
+    console.log(await GoogleSignin.signIn())
+		// console.log(userInfo)
+	} catch (error) {
+		console.log(error)
+	  if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+		  // user cancelled the login flow
+		} else if (error.code === statusCodes.IN_PROGRESS) {
+			// operation (f.e. sign in) is in progress already
+	  } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+		// play services not available or outdated
+	  } else {
+		// some other error happened
+	  }
+	}
+  };
