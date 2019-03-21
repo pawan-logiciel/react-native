@@ -9,9 +9,8 @@ import {
 } from "react-native";
 
 class HomeScreen extends Component {
-
     static navigationOptions = {
-        header: null
+        headerTitle: 'Add Student'
     }
 
     constructor(props) {
@@ -50,13 +49,18 @@ class HomeScreen extends Component {
                     phone: '' 
                 });
 
-                this.props.navigation.navigate('About', {name: 'pawan'})
+                this.props.navigation.navigate('About')
             }                
         })
         .done();
     }
 
     render() {
+    const { navigation } = this.props;
+    const data = navigation.getParam('data', null);
+    
+    console.log(data)  
+
         return (
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.container}>
