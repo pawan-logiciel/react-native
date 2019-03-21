@@ -9,8 +9,8 @@
   "dependencies": {
     "@babel/runtime": "^7.3.4",
     "axios": "^0.18.0",
-    "expo": "^32.0.6",
-    "expo-app-auth": "^3.0.0",
+    "firebase": "^5.9.0",
+    "native-base": "^2.12.1",
     "react": "16.6.3",
     "react-native": "0.58.6",
     "react-native-gesture-handler": "^1.0.17",

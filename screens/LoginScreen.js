@@ -1,146 +1,122 @@
 import React, { Component } from "react";
 import {
-    StyleSheet,
-    Text,
     View,
-	Image,
-	Button,
-    TouchableOpacity,
-    FlatList
+    Text,
+    StyleSheet,
+    Button
 } from "react-native";
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
+import axios from 'axios';
 
 class LoginScreen extends Component {
-    static navigationOptions = {
-        header: null
-    }
+ postMsg = () => {
+     console.log('hit')
+      fetch('https://test-project-4a27b.firebaseio.com/contacts.json', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "name": 'pawan',
+          "mobile": 9803355884,
+          "email": 'iampavanarora@gmail.com',
+          "msg": 'hie',
+        }),
+      })
+      .then((response) => response.json())
+      .then((responseData) => {
+          console.log(responseData)                
+      })
+      .done();
+  };
 
-	
+  putmsg = () => {
+     console.log('hit')
+      fetch('https://test-project-4a27b.firebaseio.com/contacts/-LaU0kSrFKfcpRDZ3Izr.json', {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "name": 'aman',
+          "mobile": 980,
+          "email": 'iampavanarora@gmail.com',
+          "msg": 'hie',
+        }),
+      })
+      .then((response) => response.json())
+      .then((responseData) => {
+          console.log(responseData)                
+      })
+      .done();
+  };
+
+   deleteMsg = () => {
+     console.log('hit')
+      fetch('https://test-project-4a27b.firebaseio.com/contacts/-LaU0RJ7_lMH7x87A1qx.json', {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      })
+      .then((response) => response.json())
+      .then((responseData) => {
+          console.log(responseData)                
+      })
+      .done();
+  };
+
+
+
+   getMsg = () => {
+     console.log('hit')
+      // fetch('https://test-project-4a27b.firebaseio.com/contacts.json', {
+      //   method: 'GET',
+      // })
+      // .then((response) => response.json())
+      // .then((responseData) => {
+      //     console.log(responseData)                
+      // })
+      // .done();
+      
+    axios.get('https://test-project-4a27b.firebaseio.com/contacts.json')
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  };
+
+
+          
     render() {
-		return (
-            // <View style={styles.container}>
-            //     <Button title="Go To Home"
-            //         onPress={() => this.props.navigation.navigate('Home')} />
-            // </View>
+        return (
             <View style={styles.container}>
-            <View style={styles.navBar}>
-              <Image source={require('../images/logo.png')} style={{ width: 98, height: 22 }} />
-              <View style={styles.rightNav}>
-                <TouchableOpacity>
-                  <Icon style={styles.navItem} name="search" size={25} />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                <Icon style={styles.navItem} name="account-circle" size={25} />
-                </TouchableOpacity>
-              </View>
+            <Text>hello about screen</Text>
+                <Button title="Go To Home Screen"
+                    onPress={() => this.props.navigation.navigate('Home')} />
+                <Button title="Go post Data"
+                    onPress={() => this.postMsg()} />
+                <Button title="Go fetch Data"
+                    onPress={() => this.getMsg()} />
+                <Button title="Go delete Data"
+                    onPress={() => this.deleteMsg()} />
+                <Button title="Go update Data"
+                    onPress={() => this.putmsg()} />
             </View>
-            <View style={styles.body}>
-            {/* <GoogleSigninButton
-                style={{ width: 192, height: 48 }}
-                size={GoogleSigninButton.Size.Wide}
-                color={GoogleSigninButton.Color.Dark}
-                onPress={this.signIn} /> */}
-              {/* <FlatList
-              data={data.items}
-              renderItem={(video)=><VideoItem video={video.item} />}
-              keyExtractor={(item)=>item.id}
-              ItemSeparatorComponent={()=><View style={{height:0.5,backgroundColor:'#E5E5E5'}}/>}
-			/> */}
-            </View>
-            <View style={styles.tabBar}>
-              <TouchableOpacity style={styles.tabItem}>
-                <Icon name="home" size={25}/>
-                <Text style={styles.tabTitle}>Home</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.tabItem}>
-                <Icon name="whatshot" size={25} />
-                <Text style={styles.tabTitle}>Trending</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.tabItem}>
-                <Icon name="subscriptions" size={25} />
-                <Text style={styles.tabTitle}>Subscriptions</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.tabItem}>
-                <Icon name="folder" size={25} />
-                <Text style={styles.tabTitle}>Library</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
         );
     }
 }
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1
-	},
-	navBar: {
-        height: 55,
-        backgroundColor: 'white',
-        elevation: 3,
-        paddingHorizontal: 15,
-        flexDirection: 'row',
+    container: {
+        flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-between'
-	},
-	rightNav: {
-		flexDirection: 'row'
-	},
-	navItem: {
-		marginLeft: 25
-	},
-	body: {
-		flex: 1
-	},
-	tabBar: {
-		backgroundColor: 'white',
-        height: 60,
-        borderTopWidth: 0.5,
-        borderColor: '#E5E5E5',
-        flexDirection: 'row',
-        justifyContent: 'space-around'
-	},
-	tabItem: {
-		alignItems: 'center',
         justifyContent: 'center'
-	},
-	tabTitle: {
-		fontSize: 11,
-        color: '#3c3c3c',
-        paddingTop: 4
-	}
+    }
 });
-
-
-GoogleSignin.configure({
-	scopes: ['email', 'profile'], // what API you want to access on behalf of the user, default is email and profile
-});
-
-sign();
-
-async function sign () {
-	console.log('hit')
-	try {
-		console.log('try')	
-    // await GoogleSignin.hasPlayServices();
-
-    console.log(await GoogleSignin.getTokens())
-    // console.log(user)
-    console.log(await GoogleSignin.signIn())
-		// console.log(userInfo)
-	} catch (error) {
-		console.log(error)
-	  if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-		  // user cancelled the login flow
-		} else if (error.code === statusCodes.IN_PROGRESS) {
-			// operation (f.e. sign in) is in progress already
-	  } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-		// play services not available or outdated
-	  } else {
-		// some other error happened
-	  }
-	}
-  };

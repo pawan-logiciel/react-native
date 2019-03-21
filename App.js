@@ -6,8 +6,6 @@ import  LoginScreen from './screens/LoginScreen'
 import  HomeScreen from './screens/HomeScreen'
 import  AboutScreen from './screens/AboutScreen'
 
-type Props = {};
-
 export default class App extends React.Component {
   render() {
     return <AppContainer />;
@@ -21,7 +19,7 @@ const AppStackNavigator = createStackNavigator(
       About: AboutScreen
     },
    {
-    initialRouteName: 'Login',
+    initialRouteName: 'About',
       defaultNavigationOptions: {
         headerStyle: {
           backgroundColor: '#f4511e',
