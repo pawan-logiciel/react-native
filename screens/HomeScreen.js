@@ -9,25 +9,74 @@ import {
 } from "react-native";
 
 class HomeScreen extends Component {
-    static navigationOptions = {
-        headerTitle: 'Add Student'
+
+    static navigationOptions = ({ navigation }) => {
+        const studentData = navigation.getParam('studentData', null)
+        return {
+            headerTitle: studentData == null ? 'Add Student' : 'Edit Student',
+        };
     }
 
     constructor(props) {
         super(props);
-        this.state = { 
-            name: '',
-            fatherName: '',
-            motherName: '',
-            dob: '',
-            addmisionId: '',
-            address: '',
-            phone: '' 
-        };
-      }
+        
+        const { navigation } = this.props;
+        const studentData = navigation.getParam('studentData', null);
+
+        if(studentData != null) {
+            this.state = {
+                name: studentData.name,
+                fatherName: studentData.fatherName,
+                motherName: studentData.motherName,
+                dob: studentData.dob,
+                addmisionId: studentData.addmisionId,
+                address: studentData.address,
+                phone: studentData.phone,
+                id: studentData.id
+            }
+
+        } else {
+            this.state = { 
+                name: '',
+                fatherName: '',
+                motherName: '',
+                dob: '',
+                addmisionId: '',
+                address: '',
+                phone: ''
+            }
+        }
+      } 
+
 
     saveStudentData = (studentData) => {
-        console.log('hit')
+        if(this.state.id) {
+            this.doEditStudent(studentData);
+        } else {
+            this.doAddStudent(studentData);
+        }
+
+        return;
+    }
+
+    doEditStudent = (studentData) => {
+        fetch('https://test-project-4a27b.firebaseio.com/students/'+this.state.id+'.json', {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(studentData),
+          })
+          .then((response) => response.json())
+          .then((responseData) => {
+              this.clearStateAndNavigate(responseData);
+          })
+          .done();
+    }
+
+    doAddStudent = (studentData) => {
+        
         fetch('https://test-project-4a27b.firebaseio.com/students.json', {
             method: 'POST',
             headers: {
@@ -39,28 +88,27 @@ class HomeScreen extends Component {
         .then((response) => response.json())
         .then((responseData) => {
             if(responseData.name) {
-                this.setState({
-                    name: '',
-                    fatherName: '',
-                    motherName: '',
-                    dob: '',
-                    addmisionId: '',
-                    address: '',
-                    phone: '' 
-                });
-
-                this.props.navigation.navigate('About')
-            }                
+                this.clearStateAndNavigate();         
+            }
         })
         .done();
     }
 
-    render() {
-    const { navigation } = this.props;
-    const data = navigation.getParam('data', null);
-    
-    console.log(data)  
+    clearStateAndNavigate = () => {
+        this.setState({
+            name: '',
+            fatherName: '',
+            motherName: '',
+            dob: '',
+            addmisionId: '',
+            address: '',
+            phone: '' 
+        });
 
+        this.props.navigation.navigate('About')
+    }
+
+    render() {
         return (
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 <View style={styles.container}>
@@ -72,6 +120,7 @@ class HomeScreen extends Component {
                       />
                       <TextInput
                         style={styles.inputbox}
+                        autoComplete="tel"
                         placeholder="Enter Father's Name"
                         onChangeText={(fatherName) => this.setState({fatherName})}
                         value={this.state.fatherName}

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Platform, StyleSheet, Text, View} from 'react-native'
 import {createStackNavigator, createAppContainer} from 'react-navigation'
 
-import  LoginScreen from './screens/LoginScreen'
+import  StudentScreen from './screens/StudentScreen'
 import  HomeScreen from './screens/HomeScreen'
 import  AboutScreen from './screens/AboutScreen'
 
@@ -14,7 +14,7 @@ export default class App extends React.Component {
 
 const AppStackNavigator = createStackNavigator(
    {
-      Login: LoginScreen,
+      Student: StudentScreen,
       Home: HomeScreen,
       About: AboutScreen
     },
